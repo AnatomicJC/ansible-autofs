@@ -1,0 +1,56 @@
+---
+# defaults file for ansible-role-autofs
+
+# --- OS setup ---
+autofs_pkgs:
+  Linux:
+    - autofs
+    - curlftpfs
+  Darwin: []
+
+# --- OS config ---
+autofs_master:
+  Linux: "/etc/auto.master"
+  Darwin: "/etc/auto_master"
+
+# --- autofs config ---
+autofs_indirect_maps: []
+#  - name: autofs.nfs
+#    path: /mnt/autofs/nfs
+#    options: "--ghost,--timeout=30"
+#    mounts:
+#      - name: "isos" 
+#        fstype: "nfs,rw,bg,hard,intr,tcp,resvport"
+#        url: "nfs.server.com:/data/isos"
+#  - name: autofs.smb
+#    path: /mnt/autofs/smb
+#    options: "--ghost,--timeout=30"
+#    mounts:
+#      - name: "mountName" 
+#        fstype: "cifs,credentials=/root/.smbcredentials,iocharset=utf8,sec=ntlm"
+#        url: "://smb_server/path/"
+#  - name: autofs.ftp
+#    path: /mnt/autofs/ftp
+#    options: "--ghost,--timeout=30"
+#    mounts:
+#      - name: "mountName" 
+#        fstype: "fuse,allow_other"
+#        url: ":curlftpfs\\#servername"
+#  - name: autofs.sshfs
+#    path: /mnt/autofs/sshfs
+#    options: "--ghost,--timeout=30"
+#    mounts:
+#      - name: "mountName" 
+#        fstype: "fuse,port=22,rw,allow_other"
+#        url: ":sshfs\\#user@server\:/path/to/shared"
+
+
+autofs_smb_credentials: []
+#  - smb_cred_filename: /root/.smbcredentials
+#    username: username
+#    password: password
+
+autofs_ftp_credentials: []
+#  - machine: servername
+#    login: login
+#    password: password

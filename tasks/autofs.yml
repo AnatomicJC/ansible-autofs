@@ -1,0 +1,74 @@
+---
+- name: "Apt: Ensure autofs's package(s) present"
+  apt:
+    name: "{{ item }}"
+  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  when: ansible_pkg_mgr == 'apt'
+
+- name: "Yum: Ensure autofs's package(s) present"
+  yum:
+    name: "{{ item }}"
+  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  when: ansible_pkg_mgr == 'yum'
+
+- name: "Zyp: Ensure autofs's package(s) present"
+  zypper:
+    name: "{{ item }}"
+  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  when: ansible_pkg_mgr == 'zypper'
+
+- name: "Dnf: Ensure autofs's package(s) present"
+  dnf:
+    name: "{{ item }}"
+  with_items: "{{ autofs_pkgs[ ansible_system ] }}"
+  when: ansible_pkg_mgr == 'dnf'
+
+- name: "Ensure /etc/auto.master.d/ exists"
+  file: 
+    path: "{{ item.path }}"
+    state: "{{ item.state}}"
+  with_items:
+    - path: /etc/auto.master.d
+      state: directory
+
+- name: "Ensure indirect map paths(s) exist"
+  file:
+    path: "{{ item.path }}"
+    state: directory
+  with_items: "{{ autofs_indirect_maps }}"
+
+- name: "Create smb credentials file if needed"
+  template:
+    src: "smbcredentials.j2"
+    dest: "{{ item.smb_cred_filename }}"
+    mode: 0600
+  with_items: "{{ autofs_smb_credentials }}"
+
+- name: "Create ftp credentials file if needed"
+  template:
+    src: "ftpcredentials.j2"
+    dest: "/root/.netrc"
+    mode: 0600
+  with_items: "{{ autofs_ftp_credentials }}"
+
+- name: "Create indirect map file(s) from template"
+  template:
+    src: "etc/indirect_map.j2"
+    dest: "/etc/{{ item.name }}"
+    mode: 0644
+  with_items: "{{ autofs_indirect_maps }}"
+  notify: [ 'restart autofs', 'reload autofs']
+
+- name: "Add indirect map file(s) to autofs master file"
+  template: 
+    src: "etc/auto.master.d/abl.autofs.j2"
+    dest: "/etc/auto.master.d/abl.autofs"
+  with_items: "{{ autofs_indirect_maps }}"
+  notify: [ 'restart autofs', 'reload autofs']
+
+- name: "Ensure autofs starts at boot"
+  service:
+    name: autofs
+    state: started
+    enabled: yes
+  when: ansible_system == 'Linux'
