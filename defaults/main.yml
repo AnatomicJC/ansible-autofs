@@ -6,6 +6,8 @@ autofs_pkgs:
   Linux:
     - autofs
     - curlftpfs
+    - smbclient
+    - cifs-utils
   Darwin: []
 
 # --- OS config ---
