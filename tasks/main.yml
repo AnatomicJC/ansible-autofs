@@ -1,3 +1,4 @@
 ---
 - include: autofs.yml
   when: autofs_indirect_maps
+  tags: autofs_role
