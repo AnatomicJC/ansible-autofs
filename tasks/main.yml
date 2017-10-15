@@ -1,4 +1,4 @@
 ---
-- include: autofs.yml
+- import_tasks: autofs.yml
   when: autofs_indirect_maps
   tags: autofs_role
