@@ -1,0 +1,3 @@
+{% for item in autofs_indirect_maps %}
+{{ item.path }}     /etc/{{ item.name }} {{ item.options | default ('') }}
+{% endfor %}

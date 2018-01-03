@@ -61,8 +61,8 @@
 
 - name: "Add indirect map file(s) to autofs master file"
   template: 
-    src: "etc/auto.master.d/abl.autofs.j2"
-    dest: "/etc/auto.master.d/abl.autofs"
+    src: "etc/auto.master.d/ansible.autofs.j2"
+    dest: "/etc/auto.master.d/ansible.autofs"
   with_items: "{{ autofs_indirect_maps }}"
   notify: [ 'restart autofs', 'reload autofs']
 
