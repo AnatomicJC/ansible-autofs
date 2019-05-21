@@ -1,4 +1,4 @@
 ---
 - import_tasks: autofs.yml
-  when: autofs_indirect_maps
+  when: autofs_indirect_maps|bool
   tags: autofs_role
