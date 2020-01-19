@@ -8,7 +8,7 @@ galaxy_info:
   - name: GenericLinux
     versions:
     - any
-  categories:
+  galaxy_tags:
   - system
 
 dependencies: []

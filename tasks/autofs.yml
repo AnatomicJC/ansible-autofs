@@ -24,9 +24,9 @@
   when: ansible_pkg_mgr == 'dnf'
 
 - name: "Ensure /etc/auto.master.d/ exists"
-  file: 
+  file:
     path: "{{ item.path }}"
-    state: "{{ item.state}}"
+    state: "{{ item.state }}"
   with_items:
     - path: /etc/auto.master.d
       state: directory
@@ -60,7 +60,7 @@
   notify: [ 'restart autofs', 'reload autofs']
 
 - name: "Add indirect map file(s) to autofs master file"
-  template: 
+  template:
     src: "etc/auto.master.d/ansible.autofs.j2"
     dest: "/etc/auto.master.d/ansible.autofs"
   with_items: "{{ autofs_indirect_maps }}"
